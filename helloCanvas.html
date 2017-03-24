@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Sneha Vaswani</title>
+
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Dosis:400,500" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Kreon" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <style>
+    canvas {
+      border: 1px solid gray;
+      margin: 0 auto;
+      display: block;
+    }
+    </style>
+
+    <script>
+    // #0 - In this course we will always use ECMAScript 5's "strict" mode
+    // See what 'use strict' does here:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode
+    'use strict';
+    
+    // #1 call the init function after the pages loads
+    // this is called an "event handler"
+    window.onload = init;
+  
+    function init(){            
+      // #2 Now that the page has loaded, start drawing!
+      console.log('init called');
+      
+      // A - canvas variable points at <canvas> tag
+        var canvas = document.querySelector('canvas');
+      
+      // B - the ctx variable points at a "2D drawing context"
+      var ctx = canvas.getContext('2d');
+            
+            // draw gradient
+            var grad = ctx.createLinearGradient(0, 0, 600, 300);
+            grad.addColorStop(0, 'black');
+            grad.addColorStop(1, 'white');
+      
+      // C - all fill operations are now in yellow
+      ctx.fillStyle = grad;
+      
+      // // D - fill a rectangle with the current fill color
+      // ctx.fillRect(0, 0, 640, 480);
+            
+             ctx.fillStyle = '#b3eecc';
+
+            // draw lines
+            ctx.beginPath();
+            ctx.moveTo(0,100);
+            ctx.lineTo(600, 100);
+            ctx.lineWidth = 5;
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.moveTo(75,0);
+            ctx.lineTo(75, 400);
+            ctx.lineWidth = 5;
+            ctx.stroke();
+            ctx.closePath();
+
+            // draw triangles
+            ctx.beginPath();
+            ctx.moveTo(160, 0);
+            ctx.lineTo(100, 170);
+            ctx.lineTo(220, 170);
+            ctx.lineTo(160, 0);
+            ctx.fill();
+            ctx.closePath();
+            
+            ctx.beginPath();
+            ctx.moveTo(480, 0);
+            ctx.lineTo(420, 170);
+            ctx.lineTo(540, 170);
+            ctx.lineTo(480, 0);
+            ctx.fill();
+            ctx.closePath();
+
+            // draw two squares 
+            ctx.fillRect(200, 300, 50, 50);
+            ctx.fillRect(390, 300, 50, 50);
+                    
+            ctx.save();
+            // set shadow properties
+            ctx.shadowColor = "#b3eecc";
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.shadowBlur = 30;
+            
+      
+      // G - draw and fill text using current fill color
+      ctx.font = "30pt Comic Sans MS";
+      ctx.fillStyle = '#a4e570';
+      ctx.fillText('Sneha Vaswani: IGME 330', 120, 240, 400);
+            
+            // add "IGM" text
+            
+            ctx.restore(); // this 'pop' goes back to the last save()
+    }
+  </script>
+  </head>
+
+  <body>
+    <canvas width="600" height="400">
+    Get a real browser!
+    <!-- The user will only see the above text if their browser is older and doesn't support <canvas> -->
+    </canvas>
+  
+  </body>
+</html>

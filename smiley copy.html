@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Smiley ICE</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <script>
+    // #0 - In this course we will always use ECMAScript 5's "strict" mode
+    // See what 'use strict' does here:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode
+    'use strict';
+    
+    // #1 call the init function after the pages loads
+    // this is called an "event handler"
+    window.onload = init;
+  
+    function init(){            
+      // #2 Now that the page has loaded, start drawing!
+      console.log('init called');
+      
+      // A - canvas variable points at <canvas> tag
+      var canvas = document.querySelector('canvas');
+    
+      // B - the ctx variable points at a "2D drawing context"
+      var ctx = canvas.getContext('2d');
+            
+            
+            // background 
+            ctx.fillStyle = "#00ada7";
+            ctx.fillRect(0, 0, 800, 500);
+
+            //draw sea - back
+        ctx.fillStyle="#3d4451";
+        ctx.beginPath();
+        ctx.moveTo(0, 480);
+        ctx.lineTo(640, 480);
+        ctx.lineTo(640, 325);
+        ctx.lineTo(0, 275);
+        ctx.fill();
+        ctx.closePath();
+
+        //draw sea - second to back
+        ctx.fillStyle="#3c4760";
+        ctx.beginPath();
+        ctx.moveTo(50, 480);
+        ctx.lineTo(640, 480);
+        ctx.lineTo(640, 300);
+        ctx.lineTo(50, 320);
+        ctx.fill();
+        ctx.closePath();
+
+        // 2 front seas
+        ctx.fillStyle="#4d5a7c";
+        ctx.beginPath();
+        ctx.moveTo(0, 480);
+        ctx.lineTo(190, 480);
+        ctx.lineTo(190, 375);
+        ctx.lineTo(0, 360);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.fillStyle="#4d5a7c";
+        ctx.beginPath();
+        ctx.moveTo(300, 480);
+        ctx.lineTo(540, 480);
+        ctx.lineTo(540, 355);
+        ctx.lineTo(300, 340);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.fillStyle="#546282";
+        ctx.beginPath();
+        ctx.moveTo(150, 480);
+        ctx.lineTo(320, 480);
+        ctx.lineTo(320, 395);
+        ctx.lineTo(150, 385);
+        ctx.fill();
+        ctx.closePath();
+
+        }
+  </script>
+  </head>
+
+  <body>
+    <canvas width="640" height="480">
+    Get a real browser!
+    <!-- The user will only see the above text if their browser is older and doesn't support <canvas> -->
+    </canvas>
+  
+  </body>
+</html>

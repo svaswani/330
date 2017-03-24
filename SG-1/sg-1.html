@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Canvas 1</title>
+	<style type="text/css">
+	body{
+		background: #dddddd;
+ 	}
+
+	canvas{
+		background: #ffffff;
+		cursor: pointer;
+		margin-left: 10px;
+		margin-top: 10px;
+		box-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+ 	}
+	
+	</style>
+	
+	<script>
+		"use strict";
+		// #1 - wait for page to load
+		window.onload = init; 
+		
+		function init(){
+			console.log("init() called");
+			// #2 - get pointer to <canvas> element on page
+			var canvas = document.querySelector('canvas');
+			
+			// #3 - get pointer to "drawing context" and drawing API
+			var ctx = canvas.getContext('2d');
+			
+			/* #4 - start drawing! */
+            /**ctx.fillRect(0, 0, 750, 500);
+			
+			// draw filled square
+			ctx.fillStyle = "blue"; 
+			// ctx.fillRect(x,y,width,height);
+			ctx.fillRect(40,100,10,200);
+			
+			
+			 
+			// draw stroked square
+			ctx.strokeStyle="#FF00FF"; // any legal CSS color will work for .fillStyle or .strokeStyle
+			ctx.lineWidth=15;
+			// ctx.strokeRect(x,y,width,height);
+			ctx.strokeRect(400,79,82,31);
+			
+			
+			
+			
+			// fill and stroke circle
+			ctx.fillStyle = "purple";
+            ctx.strokeStyle = "#A3FF12";
+			ctx.beginPath();
+			//  ctx.arc(x,y,radius,startAngle,endAngle, clockwise)
+			ctx.arc(200, 100, 100, 13, Math.PI * 5, false); 
+			ctx.closePath();
+ 			ctx.fill();
+ 			ctx.stroke();
+ 			
+ 			
+			
+			// stroke line
+			ctx.lineWidth = 3; 
+			ctx.strokeStyle = "rgb(255, 66, 128)"; // any legal CSS color will work for .fillStyle or .strokeStyle
+			ctx.beginPath(); 
+			ctx.moveTo(0, 0);
+			ctx.lineTo(750, 500); 
+			ctx.closePath(); 
+			ctx.stroke();
+			
+			
+			
+			// fill text
+			ctx.font = "bold 30px Times"; // the value of .font must be a valid CSS declaration
+			ctx.fillText("Rich Media Web App Dev I: Pedro's SG-1",20,300);
+            
+			
+			
+			
+			
+			// stroke text
+			ctx.strokeStyle = "gold";
+			ctx.lineWidth = 1; 
+			ctx.strokeText("Rich Media Web App Dev I: Pedro's SG-1",20,300);
+			
+			
+			
+			
+			// Bonus: A Parallelogram
+			ctx.beginPath();
+            ctx.moveTo(750, 500); // "pick up" pen and move to top-left corner
+            ctx.lineTo(550, 500); // extend path to top-right corner
+            ctx.lineTo(500, 450); // extend path to bottom-right corner
+            ctx.lineTo(700, 450); // extend path to bottom-left corner
+            
+            // closing the path will automatically extend the path back to (50,50) where it started
+            ctx.closePath();
+            
+            // we can't yet see the path, so stroke and fill it.
+            ctx.fillStyle = "yellow"; 
+            ctx.fill();
+            ctx.strokeStyle="red";
+            ctx.lineWidth=10; 
+			ctx.stroke();
+			
+			
+			**/
+            
+            // black 50x50 square
+            ctx.fillRect(0, 0, 50, 50);
+            
+            // purple 50x50 square
+            //ctx.fillStyle = "purple";
+            //ctx.fillRect(300, 300, 50, 50);
+            
+            // purple stroke square
+            ctx.strokeStyle = "purple";
+            ctx.strokeRect(300, 300, 50, 50);
+            
+            // green line
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "green";
+            ctx.beginPath();
+            ctx.moveTo(0, 100);
+            ctx.lineTo(100, 500);
+            ctx.closePath();
+            ctx.stroke();
+            
+            // black circle
+            ctx.fillStyle = "black";
+			ctx.beginPath();
+			//  ctx.arc(x,y,radius,startAngle,endAngle, clockwise)
+			ctx.arc(0, 0, 50, 0, Math.PI * 2, true); 
+			ctx.closePath();
+ 			ctx.fill();
+            
+            // yellow half circle
+            ctx.fillStyle = "yellow";
+			ctx.beginPath();
+			//  ctx.arc(x,y,radius,startAngle,endAngle, clockwise)
+			ctx.arc(200, 200, 100, 0, Math.PI, true); 
+			ctx.closePath();
+ 			ctx.fill();
+		}
+		
+		console.log("In bottom of <script> tag!");
+	</script>
+	
+</head>
+<body>
+	<canvas width="750" height="500">
+         Get a browser that supports Canvas!
+         <!-- The user will only see the above text if their browser is older and doesn't support <canvas> -->
+	
+      </canvas>
+</body>
+</html>
