@@ -32,7 +32,7 @@
 				drawGrid(gridArray);
 			}
 
-			// url from drop down
+			// url from drop down with this.value
 			xhr.open('GET', this.value, true);
 			// try to prevent browser caching by sending a header to the server
 			xhr.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2010 00:00:00 GMT");
@@ -76,6 +76,7 @@
 	<select id="dropDown">
     	<option value="happy-mac.txt">Happy Mac</option>
         <option value="watch.txt">Watch</option>
+        <option value="timer.txt">Timer</option>
     </select>
 	<canvas width='320' height='320'>Get a real browser!</canvas>
 	
