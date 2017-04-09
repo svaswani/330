@@ -31,11 +31,18 @@
 	
 				drawGrid(gridArray);
 			}
-			var url = "happy-mac.txt";
-			xhr.open('GET',url,true);
+
+			// url from drop down
+			xhr.open('GET', this.value, true);
 			// try to prevent browser caching by sending a header to the server
 			xhr.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2010 00:00:00 GMT");
 			xhr.send();
+
+			// var url = "happy-mac.txt";
+			// xhr.open('GET',url,true);
+			// // try to prevent browser caching by sending a header to the server
+			// xhr.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2010 00:00:00 GMT");
+			// xhr.send();
 		}
 		
 		function drawGrid(grid){
@@ -49,13 +56,13 @@
 					var value = grid[i][j];
 					ctx.fillStyle = COLORS[value];
 					
-					ctx.fillRect(j*cellWidth,i*cellWidth,cellWidth,cellWidth);
-					/*
+					//ctx.fillRect(j*cellWidth,i*cellWidth,cellWidth,cellWidth);
+					
 					ctx.beginPath();
 					ctx.arc(halfWidth + j*cellWidth,halfWidth + i*cellWidth,halfWidth,0,2*Math.PI);
 					ctx.fill();
 					ctx.closePath()
-					*/
+					
 				} 
 			
 			}
