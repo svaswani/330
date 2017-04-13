@@ -23,10 +23,38 @@
 			var xhr = new XMLHttpRequest();
 			var allJokes =[];
 			xhr.onload = function(){
+				var html = "<h2>Here are some jokes!"
 				var xml = xhr.responseXML;
-				debugger;
-				allJokes = xml.querySelectorAll('joke');
-				document.querySelector('#content').innerHTML = "There are " + allJokes.length + " jokes!";
+				// array of joke elements
+				var allJokes = xml.querySelectorAll('joke');
+
+				// loop through joke elements
+				for (var i=0;i<allJokes.length;i++) {
+					//grab current joke
+					var jokes = allJokes[i];
+
+					// get the questions element
+					var question = joke.querySelector('question').firstChild.nokeValue;
+
+					// get answer
+					var answer = joke.querySelector('answer').firstChild.nokeValue;
+
+					// get rating
+					var rating = joke.getAttribute('rating');
+
+					// concatenation
+					html += "<div class='joke'>";
+                    html += "<h3>" + question + "</h3>";
+                    html += "<p><em>" + answer + "</em></p>";
+                    html += "<p>Rating = " +rating + "</p>";
+                    html += "</div>";
+
+                    // update #content div
+                    document.querySelector('#content').innerHTML=html;
+				}
+				// debugger;
+				// allJokes = xml.querySelectorAll('joke');
+				// document.querySelector('#content').innerHTML = "There are " + allJokes.length + " jokes!";
 			}
 			
 			var url = "jokes-data.xml";
