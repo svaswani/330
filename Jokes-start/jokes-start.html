@@ -25,13 +25,14 @@
 			xhr.onload = function(){
 				var html = "<h2>Here are some jokes!"
 				var xml = xhr.responseXML;
+
 				// array of joke elements
 				var allJokes = xml.querySelectorAll('joke');
 
 				// loop through joke elements
 				for (var i=0;i<allJokes.length;i++) {
 					//grab current joke
-					var jokes = allJokes[i];
+					var joke = allJokes[i];
 
 					// get the questions element
 					var question = joke.querySelector('question').firstChild.nokeValue;
