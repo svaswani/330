@@ -1,0 +1,22 @@
+<movies>
+	<movie rating="5">
+		<title>The Dark Knight</title>
+		<actor>Health Ledger</actor>
+	</movie>
+	<movie rating="3">
+		<title>Beauty and The Beast</title>
+		<actor>Emma Watson</actor>
+	</movie>
+	<movie rating="4">
+		<title>Harry Potter</title>
+		<actor>Daniel Radcliff</actor>
+	</movie>
+	<movie rating="3">
+		<title>Twilight</title>
+		<actor>Kristen Stewart</actor>
+	</movie>
+	<movie rating="4">
+		<title>Logan</title>
+		<actor>Hugh Jackman</actor>
+	</movie>
+</movies>

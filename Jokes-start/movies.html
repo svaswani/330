@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>XHR XML Example</title>
+	<style>
+		*{
+			font-family:tahoma,verdana,sans-serif;
+		}
+
+		.movie 
+		{
+			border: 1pt solid black;
+	        margin-bottom: 1em;
+		}
+	</style>
+
+
+	<script>
+	
+	"use strict";
+	
+	(function(){
+		window.onload = init;
+		
+		function init(){
+			document.querySelector('#mybutton').onclick = loadData;
+		}
+		
+		function loadData(){
+			var xhr = new XMLHttpRequest();
+			var allMovies =[];
+			xhr.onload = function(){
+				var html = "<h2>Here are some movies!"
+				var xml = xhr.responseXML;
+
+				// array of joke elements
+				var allMovies = xml.querySelectorAll('movie');
+
+				// loop through joke elements
+				for (var i=0;i<allMovies.length;i++) {
+					//grab current joke
+					var movie = allMovies[i];
+
+					// get the title element
+					var title = movie.querySelector('title').firstChild.nodeValue;
+
+					// get actor
+					var actor = movie.querySelector('actor').firstChild.nodeValue;
+
+					// get rating
+					var rating = movie.getAttribute('rating');
+
+					// concatenation
+					html += "<div class='movie'>";
+                    html += "<h3>" + title + "</h3>";
+                    html += "<p><em>" + actor + "</em></p>";
+                    html += "<p>Rating = " +rating + "</p>";
+                    html += "</div>";
+
+                    // update #content div
+                    document.querySelector('#content').innerHTML=html;
+				}
+				// debugger;
+				// allJokes = xml.querySelectorAll('joke');
+				// document.querySelector('#content').innerHTML = "There are " + allJokes.length + " jokes!";
+			}
+			
+			var url = "movies-data.xml";
+			xhr.open('GET',url,true);
+			// try to prevent browser caching by sending a header to the server
+			xhr.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2010 00:00:00 GMT");
+			xhr.send();
+		}
+		
+		
+	
+	}())
+	</script>
+</head>
+<body>
+	<h1>Movies!</h1>
+	<p><button id='mybutton'>Fetch Data</button></p>
+	<div id='content'></div>
+	
+</body>
+</html>
