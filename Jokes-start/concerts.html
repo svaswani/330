@@ -43,16 +43,16 @@
 					var event = allEvents[i];
 
 					// get the title element
-					var title = concert.querySelector('title').firstChild.nodeValue;
+					var title = event.querySelector('title').firstChild.nodeValue;
 
 					// get city
-					var city = concert.querySelector('city').firstChild.nodeValue;
+					var city = event.querySelector('city').firstChild.nodeValue;
 
 					// get start date
-					var startDate = concert.querySelector('startDate').firstChild.nodeValue;
+					var startDate = event.querySelector('startDate').firstChild.nodeValue;
 
 					// images
-					var images = concert.querySelectorAll('image');
+					var images = event.querySelectorAll('image');
                     var image = images[images.length - 1].firstChild.nodeValue;
 
 					// concatenation
