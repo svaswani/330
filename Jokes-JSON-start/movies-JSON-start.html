@@ -27,7 +27,8 @@
 			var xhr = new XMLHttpRequest();
 			xhr.onload = function(){
 				// JSON.parse() converts a string to JSON.
- 				var myJSON = JSON.parse( xhr.responseText );
+ 				//var myJSON = JSON.parse( xhr.responseText );
+ 				var myJSON = eval('('+xhr.responseText+')');
  				
  			//	var myJSON = eval('(' + xhr.responseText + ')');
  				var allMovies = myJSON.movies;
