@@ -1,7 +1,7 @@
 <movies>
 	<movie rating="5">
 		<title>The Dark Knight</title>
-		<actor>Health Ledger</actor>
+		<actor>Heath Ledger</actor>
 	</movie>
 	<movie rating="3">
 		<title>Beauty and The Beast</title>
