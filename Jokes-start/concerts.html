@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>XHR XML Example</title>
+	<style>
+		*{
+			font-family:tahoma,verdana,sans-serif;
+		}
+
+		.joke 
+		{
+			border: 1pt solid black;
+	        margin-bottom: 1em;
+		}
+	</style>
+
+
+	<script>
+	
+	"use strict";
+	
+	(function(){
+		window.onload = init;
+		
+		function init(){
+			document.querySelector('#mybutton').onclick = loadData;
+		}
+		
+		function loadData(){
+			var xhr = new XMLHttpRequest();
+			var allJokes =[];
+			xhr.onload = function(){
+				var html = "<h2>Here are some concerts!"
+				var xml = xhr.responseXML;
+
+				// array of joke elements
+				var allEvents = xml.querySelectorAll('event');
+
+				// loop through joke elements
+				for (var i=0;i<allEvents.length;i++) {
+					//grab current joke
+					var event = allEvents[i];
+
+					// get the title element
+					var title = concert.querySelector('title').firstChild.nodeValue;
+
+					// get city
+					var city = concert.querySelector('city').firstChild.nodeValue;
+
+					// get start date
+					var startDate = concert.querySelector('startDate').firstChild.nodeValue;
+
+					// images
+					var images = concert.querySelectorAll('image');
+                    var image = images[images.length - 1].firstChild.nodeValue;
+
+					// concatenation
+					html += "<div class='concert'>";
+                    html += "<h3>" + title + "</h3>";
+                    html += "<p>Location: " + city + "</p>";
+                    html += "<p>Date: " + startDate + "</p>";
+                    html += "<img src='" + image + "' />";
+                    html += "</div>";
+
+                    // update #content div
+                    document.querySelector('#content').innerHTML=html;
+				}
+				// debugger;
+				// allJokes = xml.querySelectorAll('joke');
+				// document.querySelector('#content').innerHTML = "There are " + allJokes.length + " jokes!";
+			}
+			
+			var url = "last-fm-results.xml";
+			xhr.open('GET',url,true);
+			// try to prevent browser caching by sending a header to the server
+			xhr.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2010 00:00:00 GMT");
+			xhr.send();
+		}
+		
+		
+	
+	}())
+	</script>
+</head>
+<body>
+	<h1>Concerts!</h1>
+	<p><button id='mybutton'>Fetch Data</button></p>
+	<div id='content'></div>
+	
+</body>
+</html>
