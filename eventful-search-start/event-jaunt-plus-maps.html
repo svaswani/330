@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link href='https://fonts.googleapis.com/css?family=Coming+Soon' rel='stylesheet' type='text/css'>
+    <title>EventJaunt&trade;</title>
+
+    <!-- Import jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdURLJvGMIro7bN8ANZ05jNESxENudNIo&callback=init" async defer></script>
+
+    <script>
+    "use strict";
+    var EVENTFUL_URL = "https://api.eventful.com/json/events/search?callback=jsonLoaded&app_key="
+    var API_KEY = "77pLv2FNsFj3g3pX";
+    var value;
+    var map;
+    var infowindow;
+    var markers = [];
+    function init(){
+        document.querySelector("#search").onclick = getData;
+        // http://en.wikipedia.org/wiki/Geographic_center_of_the_contiguous_United_States
+        var mapOptions = {
+            center: {lat: 39.828127, lng: -98.579404},
+            zoom: 3
+        }
+        map = new google.maps.Map(document.getElementById('mapDiv'), mapOptions);
+    }
+        // MY FUNCTIONS
+        function getData(){
+            clearMarkers();
+            
+            // build up our URL string
+            var url = EVENTFUL_URL; 
+            url += API_KEY;
+            url += "&location=";
+            // get value of form field
+            value = document.querySelector("#searchterm").value;
+            // get rid of any leading and trailing spaces
+            value = value.trim();
+            // if there's no band to search then bail out of the function
+            if(value.length < 1) return;
+            document.querySelector("#dynamicContent").innerHTML = "<b>Searching for " + value + "</b>";
+            // replace spaces the user typed in the middle of the term with %20
+            // %20 is the hexadecimal value for a space
+            value = encodeURI(value);
+            
+            // finally, add the artist name to the end of the string
+            url += value;
+            
+            // call the web service, and download the file
+            console.log("loading " + url);
+            $("#content").fadeOut(1000);
+            $.ajax({
+                dataType: "jsonp",
+                url: url,
+                data: null,
+                success: jsonLoaded
+            });
+        }
+        function jsonLoaded(obj){
+            console.log("obj = " +obj);
+            console.log("obj stringified = " + JSON.stringify(obj));
+            
+            // if there's an error, print a message and return
+            if(obj.error){
+                var status = obj.status;
+                var description = obj.description;
+                document.querySelector("#dynamicContent").innerHTML = "<h3><b>Error!</b></h3>" + "<p><i>" + status + "</i><p>" + "<p><i>" + description + "</i><p>";
+                $("#dynamicContent").fadeIn(500);
+                return; // Bail out
+            }
+            
+            // if there are no results, print a message and return
+            if(obj.total_items == 0){
+                var status = "No results found";
+                document.querySelector("#dynamicContent").innerHTML = "<p><i>" + status + "</i><p>" + "<p><i>";
+                $("#dynamicContent").fadeIn(500);
+                return; // Bail out
+            }
+            
+            // TODO
+            // if there is only one result, Eventful returns an object instead of an array
+            // create an array with the single object
+            if(obj.total_items == 1){
+                var oneEvent = obj.events.event;
+                
+                bigString += "<h1>" + oneEvent + "</h1>";
+                bigString += "";
+            }
+            
+            // If there is an array of results, loop through them
+            if(obj.total_items > 1){
+                var allEvents = obj.events.event;
+                console.log("allEvents.length = " + allEvents.length);
+                var bigString = "<p><b>There are " + allEvents.length + " events for " + value + "</b></p>";
+                bigString += "<hr />";
+                
+                // loop through events here
+                // concatenate HTML to bigString as necessary
+                for(var i = 0; i < allEvents.length;  i++){
+                    var event = allEvents[i];
+                    
+                    var eventTitle = event.title ? event.title: "No Title Found";
+                    var eventDescription = event.description ? event.description: "No Description Found";
+                    var eventStartTime = event.start_time ? event.start_time: "No Start Time Found";
+                    var eventVenueName = event.venue_name ? event.venue_name: "No Venue Found";
+                    var eventVenueAddress = event.venue_address ? event.venue_address: "No Address Found";
+                    var eventURL = event.url ? event.url: "No URL Found";
+                    
+                    var para = "<p>";
+                    para += "<h1>" + eventTitle + "</h1>";
+                    para += "<p>" + eventDescription + "</p>"
+                    para += "<h2>Start Time: " + eventStartTime + "</h2>";
+                    para += "<h3>Venue: " + eventVenueName + "</h3>";
+                    para += "<h3>Address: " + eventVenueAddress + "</h3>";
+                    para += "<a href=" + eventURL + "></a>";
+                    para += "</p>";
+                    para += "<hr />";
+                    bigString += para;
+                    
+                    var title = eventTitle + " <br> " + event.city_name;
+                    var lat = Number(event.latitude);
+                    var lng = Number(event.longitude);
+                    if(lat && lng){
+                        addMarker(lat, lng, title);
+                    }
+                }
+            }
+            
+            
+            document.querySelector("#dynamicContent").innerHTML = bigString;
+            $("#dynamicContent").fadeIn(500);
+        }
+        
+        function addMarker(latitude, longitude, title){
+            var position = {lat:latitude, lng:longitude};
+            var marker = new google.maps.Marker({position:position,map:map});
+            marker.setTitle(title);
+            
+            // add listener for click event
+            google.maps.event.addListener(marker, 'click', function(e){
+                makeInfoWindow(this.position, this.title);
+            });
+            
+            markers.push(marker);
+            
+            zoomOnFirstResult();
+        }
+        
+        function makeInfoWindow(position, msg){
+            // Close old info window if it exists
+            if(infowindow) infowindow.close();
+            
+            // make new info window
+            infowindow = new google.maps.InfoWindow({
+                map: map,
+                position: position,
+                content: "<b>" + msg + "</b>"
+            });   
+        }
+        
+        function clearMarkers(){
+            // close info window if it exists
+            if(infowindow) infowindow.close();
+            // loop though markers array
+            for(var i = 0; i < markers.length; i++){
+                // call .setMap(null) on each marker to remove it from map
+                markers[i].setMap(null);
+            }
+            
+            // empty or re-initialize markers array
+            markers = [];
+        }
+        
+        function zoomOnFirstResult(){
+            if(markers.length == 0) return;
+            // set the zoom level of the map to 9
+            map.setZoom(9);
+            // set the center of the map to the position of the first marker
+            map.panTo(markers[0].position);
+        }
+        
+    </script>
+    <style>
+        *{
+            font-family: 'Coming Soon', sans-serif;
+        }
+        
+        h1{
+            color: #E4685D;
+            text-shadow: 0 0 20px #FFF;
+            font-size: 50px;
+            padding: 30px 0 0 10px;
+            background-image: url(https://igm.rit.edu/~acjvks/courses/2014-fall/330/files/i/anime-girl-2.jpg);
+            
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 0 -80px;
+            height: 100px;
+            width: 533px;
+        }
+        
+        .eventDiv{
+            border-bottom:1px solid gray;
+            margin-bottom:2em;
+        }
+        
+        #content{
+            margin-left: 5%;
+            margin-right:5%;
+            background-color:#FFF5EE;
+            min-height:500px;
+            padding:0 10px 10px 10px;
+            border:1px solid gray;
+        }
+        
+        #search{
+            box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+            background:linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+            background-color:#fc8d83;
+            border-radius:6px;
+            border:1px solid #d83526;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-size:15px;
+            font-weight:bold;
+            padding:6px 24px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #b23e35;
+            margin-right:2em;
+        }
+        
+        
+        #search:hover {
+            background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+            background-color:#e4685d;
+        }
+        
+        
+        #search:active {
+            position:relative;
+            top:1px;
+        }
+        
+        
+        #searchterm{
+            font-size:16px;
+        }
+        
+        img{
+            padding:7px;
+            border:1px solid black;
+            background-color:white;
+        }
+        
+        #mapDiv{
+            margin: 0;
+            padding: 0;
+            width: 542px;
+            height: 300px;
+            border: 1px solid black;
+        }
+    </style>
+    
+</head>
+    <body>
+        <h1>EventJaunt&trade;</h1>
+        <p><i>Your indispensable event finding service!</i></p>
+        
+        <button type="button" id="search">Get Event!<br />:-)</button>
+        What is your location? -&gt; <input id="searchterm" type="text" size="20" maxlength="20" autofocus value="Rochester" /> 
+        
+        <h2>Results</h2>
+        <div id="mapDiv"></div>
+        <div id="dynamicContent">
+            <p>No data yet!</p>
+        </div>
+        
+        
+    </body>
+</html>
