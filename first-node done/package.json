@@ -1,0 +1,26 @@
+{
+  "name": "new-project-name",
+  "version": "1.0.0",
+  "engines": {
+    "node": "7.1.0",
+    "npm": "3.10.x"
+  },
+  "description": "Our first node example",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./Users/svaswani/Documents/330/first-node done/src/index.js",
+
+    "test": "echo \"No Tests\""
+  },
+  "keywords": [
+    "NPM",
+    "Node",
+    "Introduction"
+  ],
+  "author": "Cody Van De Mark",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "underscore": "~1.7.0"
+  },
+  "devDependencies": {}
+}
